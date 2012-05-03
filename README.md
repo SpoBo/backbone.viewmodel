@@ -62,6 +62,12 @@ And finally here is how to use said ViewModel for this template:
 ```
 	template = $(@view('invoices/invoice')(new InvoiceViewModel(@model_instance)))
 ```
+
+How to play?
+---
+
+Just copy over the backbone.viewmodel.js file in your lib folder.
+
 How to collaborate?
 ---
 
