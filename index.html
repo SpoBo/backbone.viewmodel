@@ -1,0 +1,110 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Backbone.viewmodel by SpoBo</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <script src="javascripts/scale.fix.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Backbone.viewmodel</h1>
+        <p>A small &amp; simple decorator library for backbone.</p>
+        <p class="view"><a href="https://github.com/SpoBo/backbone.viewmodel">View the Project on GitHub <small>SpoBo/backbone.viewmodel</small></a></p>
+        <ul>
+          <li><a href="https://github.com/SpoBo/backbone.viewmodel/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/SpoBo/backbone.viewmodel/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/SpoBo/backbone.viewmodel">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>Backbone.ViewModel</h1>
+
+<p>A silly library to easily add a layer of viewlogic to your models.
+Similar to the draper gem for ruby.</p>
+
+<p>I chose to write this because I like Spine's way of handling models.
+Using get('attribute-name') everywhere in my viewtemplates makes me a little bit sad.</p>
+
+<p>I also feel that viewlogic does not belong on the model. For example determining
+what CSS class to use for the model or doing some formatting. It's neat when you
+can keep your templates as clean as possible.</p>
+
+<p>Lastly, I could miss the ball completely with this extention. Maybe Backbone doesn't need this at all. User discretion is adviced! If you feel stuff needs to change please contact me or send me a pull request.</p>
+
+<h2>How to wield this amazing power?</h2>
+
+<p>Check the specs for some more details.</p>
+
+<p>Best results when using CoffeeScript.</p>
+
+<p>Here is a sample Model:</p>
+
+<pre><code>class Invoice extends Backbone.Model
+  defaults:
+    subject: ''
+    amount: 0
+    amount_paid: 0
+
+  paid: -&gt;
+    @amout &lt;= @amount_paid
+</code></pre>
+
+<p>Here is what the template could look like:</p>
+
+<pre><code>&lt;div class="invoice &lt;%= @css_class() %&gt;"&gt;
+  &lt;%= @subject %&gt; - &lt;%= @amount_in_currency() %&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>Here is it's ViewModel:</p>
+
+<pre><code>class InvoiceViewModel extends Backbone.ViewModel
+
+  delegate_functions: 'paid'
+
+  css_class: -&gt;
+    if @paid()
+      'paid'
+    else
+      'unpaid'
+
+  amount_in_currency: -&gt;
+    I18n.toCurrency(@amount, {precision: 2})
+</code></pre>
+
+<p>And finally here is how to use said ViewModel for this template:</p>
+
+<pre><code>template = $(@view('invoices/invoice')(new InvoiceViewModel(@model_instance)))
+</code></pre>
+
+<h2>How to play?</h2>
+
+<p>Just copy over the backbone.viewmodel.js file in your lib folder.</p>
+
+<h2>How to collaborate?</h2>
+
+<p>Fork, branch &amp; pull request.</p>
+
+<p>Easiest way I found to compile the coffeescript is to use <a href="https://github.com/TrevorBurnham/Jitter">jitter</a>.</p>
+
+<p>in the root folder: <code>jitter lib js spec</code></p>
+      </section>
+    </div>
+    <footer>
+      <p>Project maintained by <a href="https://github.com/SpoBo">SpoBo</a></p>
+      <p>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></p>
+    </footer>
+    <!--[if !IE]><script>fixScale(document);</script><!--<![endif]-->
+    
+  </body>
+</html>
